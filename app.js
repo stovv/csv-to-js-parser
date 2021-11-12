@@ -83,10 +83,14 @@ module.exports.csvToObj = function(data, param1, param2)
 	let arraysIndexes = {};
 	let flag = true;
 
+	let notFoundFields = [];
 	for (let key in description)
 	{
 		let index = header.indexOf(key, 0);
-		if (index === -1) throw new Error('Cannnot find selected fields in the header');
+		if (index === -1) {
+			notFoundFields.push(key);
+			continue;
+		}
 		if (Number(description[key].group) > 0)
 		{
 			flag = false;
@@ -98,6 +102,11 @@ module.exports.csvToObj = function(data, param1, param2)
 			arraysIndexes[key] = index;
 		}
 	}
+
+	if (notFoundFields.length > 0){
+		throw new Error(`Can't find selected fields in the header: ${notFoundFields}`);
+	}
+
 	if (flag) throw new Error('You have to specify at least one group field!');
 	//Sorting data by groups and spliting by all constants
 	{
