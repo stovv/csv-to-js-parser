@@ -104,7 +104,7 @@ module.exports.csvToObj = function(data, param1, param2)
 	}
 
 	if (notFoundFields.length > 0){
-		throw new Error(`Can't find selected fields in the header: ${notFoundFields}`);
+		throw new Error(`Can't find selected fields in the header: [${notFoundFields}]`);
 	}
 
 	if (flag) throw new Error('You have to specify at least one group field!');
